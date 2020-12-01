@@ -1,6 +1,6 @@
-# Runnable 객체를 익명 클래스(Anonymous Class)로 작성하기
+# Thread
 
-## SourceCode
+##  Runnable 객체를 익명 클래스(Anonymous Class)로 작성하기
 ```java
 package day25.basic;
 
@@ -59,4 +59,31 @@ public class Test01 {
 }
 
 
+```
+
+## interrupt()로 스레드 객체 강제 종료하기
+```java
+package day25.basic;
+
+import javax.swing.JOptionPane;
+
+class MyThread extends Thread{
+	@Override
+	public void run() {
+		while(!isInterrupted()) {
+			// 종료되지 않을 동안 수행되는 코드
+			System.out.println("MyThread 실행 중!");
+		}
+	}
+}
+public class Test02 {
+	public static void main(String[] args) {
+		MyThread my = new MyThread();
+		my.start();
+		
+		JOptionPane.showMessageDialog(null, "종료하려면 확인을 누르세요.");
+		my.interrupt();
+	}
+
+}
 ```
