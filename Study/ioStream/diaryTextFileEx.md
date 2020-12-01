@@ -19,7 +19,7 @@ public class Quiz03 {
 
 		Date date;
 		SimpleDateFormat sd = new SimpleDateFormat("YYYYMMDD_HHmmss");
-		FileWriter writer;
+		FileWriter writer=null;
 		
 
 		try {
@@ -43,6 +43,12 @@ public class Quiz03 {
 			
 		}catch(IOException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				writer.close();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
