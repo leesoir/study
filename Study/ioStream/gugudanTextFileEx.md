@@ -54,11 +54,15 @@ public class Quiz02 {
 		// 사용자에게 단을 입력받아 해당 구구단 txt 파일을 열고, 그 내용을 JOptionPane으로 출력한다.
 		FileReader reader = null;
 		Scanner sc = null;
+		StringBuffer sb = new StringBuffer();
 		
 		try{
-			int dan = Integer.parseInt(JOptionPane.showInputDialog("단을 입력하세요."));
+			int dan = Integer.parseInt(JOptionPane.showInputDialog("단을 입력하세요.").trim());
+			// 1) null값이 들어온 경우(취소 등) : NullPointerException
+			// 2) 숫자가 아닌 값을 입력한 경우 : NumberFormatException
+			// trim을 쓰지 않으면 null값이 들어와도 NuberFormatException이 일어난다.
+			
 			reader = new FileReader(dan+".txt"); // 문자열과 병합(+)하는 부분에서 자동 문자열 casting이 일어난다.
-			StringBuffer sb = new StringBuffer();
 			sc = new Scanner(reader);
 			
 			while(sc.hasNext()) {
@@ -70,8 +74,12 @@ public class Quiz02 {
 			reader.close();
 			sc.close();
 		}
-		catch (IOException e) {
-			e.printStackTrace();
+		catch(NullPointerException | NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "정수를 입력하세요.");
+		}
+		catch(FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "잘못된 파일명 혹은 경로입니다.");
+		}
 		}finally {
 			try {
 				if(null != sc)
