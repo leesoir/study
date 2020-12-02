@@ -69,3 +69,51 @@ public class Test01 {
 	
 }
 ```
+
++) 파일 크기만큼 데이터를 받아와 byte[] 배열에 저장하고 해당 배열을 write()하기
+```java
+package day28.basic;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Test02 {
+	public static void main(String[] args) {
+		// byte[] 를 미리 만들어 데이터를 한꺼번에 받아 전송(Buffer)
+		// Test01에서는 읽고-출력하는 것을 3만번 반복했다(그림 파일이 30,000 byte).
+		// date size가 커지면 작업 수행에 시간이 오래 걸리게 됨
+
+		FileInputStream in = null;
+		FileOutputStream out = null;
+		File f = null; // 특정 디렉토리의 정보 등을 얻어올 때 사용
+		byte[] arr;
+
+		try {
+			in = new FileInputStream("aa.jpg");
+			out = new FileOutputStream("bb.jpg");
+
+			// 파일 크기와 동일한 크기의 byte[] 만들기
+			f = new File("aa.jpg"); // 원본 파일을 File형 객체로 포장
+			long size = f.length(); // File.length() : 파일의 크기를 알려줌
+			arr = new byte[(int)size];
+
+			in.read(arr); // 배열 크기만큼 읽어들임
+			out.write(arr); // 배열에 들어온 binary data를 outStream을 통해 출력
+
+		}catch(IOException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(null != out)
+					out.close();
+				if(null != in)
+					in.close();
+			}catch (IOException e) {
+			}
+		}
+	}
+
+}
+```
