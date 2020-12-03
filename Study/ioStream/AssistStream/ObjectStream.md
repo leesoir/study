@@ -13,15 +13,22 @@ import javax.swing.JOptionPane;
 
 public class Homework01 {
 
-	private TreeMap<String, String> map = new TreeMap<>();
+	private TreeMap<String, String> map;
 
 	private void save() {
 		// 현재 map을 word.w 에 덮어씀 (저장)
 		// 1.FileOutputStream 생성
 		// 2.ObjectOuputStream 생성
+		try(FileOutputStream out = new FileOutputStream("words.w", true); 
+				ObjectOutputStream oout = new ObjectOutputStream(out);){
+				
 		// 3.oOut.writeObject(map);
+		oout.writeObject(map);
+		
 		// 4.ObjectOuputStream 닫기
 		// 5.FileOutputStream 닫기 
+			}catch (Exception e) {
+		}
 	}
 	private void load() {
 		// word.w 에 readObject하여 그 객체를 map에 저장
@@ -32,6 +39,20 @@ public class Homework01 {
 		// 3. map = (TreeMap<String, String>)oIn.readObject()
 		// 4. ObjectInputStream 닫기
 		// 5. FileInputStream 닫기
+		
+		try(FileInputStream in = new FileInputStream("words.w"); // 최초 실행 시 여기에서 Exception(FileNotFound)
+				ObjectInputStream oin = new ObjectInputStream(in);){
+			
+			map = (TreeMap<String, String>)oin.readObject();
+			// think : 최초 실행에는 words.w가 없어 FileNotFoundException
+			
+		}catch(FileNotFoundException e) {
+			// 최초 실행일 경우(파일이 없을 경우)
+			map = new TreeMap<>();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
