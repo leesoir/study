@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 public class Server implements Runnable {
 	
 	private BufferedReader br;
+	private BufferedWriter bw;
 	
 	@Override
 	public void run() {
@@ -28,8 +29,6 @@ public class Server implements Runnable {
 	
 	public Server() {
 		ServerSocket sSocket = null;
-//		BufferedReader br = null;
-		BufferedWriter bw = null;
 		
 		try {
 			sSocket = new ServerSocket(50000); // 포트 번호 :50000
@@ -42,8 +41,6 @@ public class Server implements Runnable {
 			
 			new Thread(this).start();
 			
-			
-//			String input;
 			while(true) {
 				String toClient = JOptionPane.showInputDialog("To Client");
 				if(toClient == null) {
